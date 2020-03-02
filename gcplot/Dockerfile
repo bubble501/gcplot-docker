@@ -35,7 +35,7 @@ RUN chmod 755 /etc/init.d/gcserver \
   && chmod -R 755 /home/gcserver/config/*
 
 RUN \
-  wget "https://downloads.gcplot.com/artifacts/gcserver/${GCPLOT_VERSION}/com.gcplot.web-${GCPLOT_VERSION}-all.jar" -O /home/gcserver/lib/bootstrap.jar \
+  wget "http://172.16.97.99:8000/com.gcplot.web-${GCPLOT_VERSION}-all.jar" -O /home/gcserver/lib/bootstrap.jar \
   && chown -R gcserver:gcserver /home/gcserver
 
 # Install OrientDB
@@ -64,7 +64,7 @@ RUN cp /opt/orientdb/bin/orientdb.sh /etc/init.d/orientdb \
 # Install Cassandra
 
 RUN echo "deb http://www.apache.org/dist/cassandra/debian $CASSANDRA_VERSION main" | tee -a /etc/apt/sources.list.d/cassandra.sources.list \
-  && curl https://www.apache.org/dist/cassandra/KEYS | apt-key add - \
+  && wget https://www.apache.org/dist/cassandra/KEYS && apt-key add KEYS \
   && apt-get update -y \
   && apt-get install cassandra -y \
   && sed -i '/ulimit/d' /etc/init.d/cassandra
